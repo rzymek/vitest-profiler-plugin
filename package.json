@@ -3,11 +3,13 @@
   "author": "krzysztof.rzymkowski@gmail.com",
   "description": "A vitest plugin to profile test execution time.",
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
+  "types": "index.d.ts",
   "type": "module",
   "files": [
     "index.js",
+    "index.d.ts",
     "vitest-profiler-plugin.js"
   ],
   "scripts": {
