@@ -1,4 +1,4 @@
-export default function plugin() {
+export function profilerPlugin() {
     return {
         name: 'vitest-profiler-plugin',
         configureVitest(context) {

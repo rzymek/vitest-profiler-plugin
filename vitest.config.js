@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
-import profiler from './index.js';
+import {defineConfig} from 'vitest/config';
+import {profilerPlugin} from './index.js';
 
 export default defineConfig({
-  plugins: [profiler()],
+    plugins: [profilerPlugin()],
 });
