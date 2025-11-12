@@ -1,7 +1,7 @@
 import {afterAll, afterEach, beforeEach} from 'vitest';
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import * as v8Profiler from "v8-profiler-next";
+import v8Profiler from "v8-profiler-next";
 
 const profileResultsDir = "test-profile";
 v8Profiler.setGenerateType(1 /*1=tree, 0=flat*/);
