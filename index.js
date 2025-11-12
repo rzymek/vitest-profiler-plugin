@@ -1,4 +1,9 @@
-export function profilerPlugin() {
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default function plugin() {
     return {
         name: 'vitest-profiler-plugin',
         configureVitest(context) {
