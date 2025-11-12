@@ -1,0 +1,27 @@
+{
+  "name": "vitest-profiler-plugin",
+  "author": "krzysztof.rzymkowski@gmail.com",
+  "description": "A vitest plugin to profile test execution time.",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js",
+    "vitest-profiler-plugin.js"
+  ],
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [
+    "vitest",
+    "plugin",
+    "profiler"
+  ],
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "v8-profiler-next": "^1.10.0"
+  }
+}
