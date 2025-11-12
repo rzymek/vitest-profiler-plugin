@@ -5,7 +5,7 @@ A Vitest plugin to profile test execution time.
 ## Installation
 
 ```bash
-pnpm install -D vitest-profiler-plugin
+npm install --save-dev vitest-profiler-plugin
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ Add the plugin to your `vitest.config.js` file:
 
 ```javascript
 import { defineConfig } from 'vitest/config'
-import {profilerPlugin} from 'vitest-profiler-plugin'
+import { profilerPlugin } from 'vitest-profiler-plugin'
 
 export default defineConfig({
   plugins: [
@@ -28,6 +28,14 @@ export default defineConfig({
 This plugin uses the `v8-profiler-next` library to generate CPU profiles for your tests.
 
 For each test, a `.cpuprofile` file is generated in the `test-profile` directory. The file path mirrors the test file path and the test's suite structure.
+
+### Disabling the plugin
+
+You can disable the plugin by setting the `VITEST_PROFILER_DISABLE` environment variable to a truthy value.
+
+```bash
+VITEST_PROFILER_DISABLE=1 vitest
+```
 
 ## Viewing the profiles
 
