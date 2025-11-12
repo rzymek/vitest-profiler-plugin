@@ -1,11 +1,11 @@
 # vitest-profiler-plugin
 
-A [vitest](https://vitest.dev/) plugin to profile test execution time.
+A Vitest plugin to profile test execution time.
 
 ## Installation
 
 ```bash
-npm install --save-dev vitest-profiler-plugin
+pnpm install -D vitest-profiler-plugin
 ```
 
 ## Usage
@@ -13,16 +13,31 @@ npm install --save-dev vitest-profiler-plugin
 Add the plugin to your `vitest.config.js` file:
 
 ```javascript
-import { defineConfig } from 'vitest/config';
-import profiler from 'vitest-profiler-plugin';
+import { defineConfig } from 'vitest/config'
+import {profilerPlugin} from 'vitest-profiler-plugin'
 
 export default defineConfig({
-  plugins: [profiler()],
-});
+  plugins: [
+    profilerPlugin(),
+  ]
+})
 ```
 
-Then run vitest as usual. The execution time for each test will be printed to the console.
+## What it does
+
+This plugin uses the `v8-profiler-next` library to generate CPU profiles for your tests.
+
+For each test, a `.cpuprofile` file is generated in the `test-profile` directory. The file path mirrors the test file path and the test's suite structure.
+
+## Viewing the profiles
+
+To examine the generated profile:
+
+1.  Open Chrome and navigate to `chrome://inspect`.
+2.  Click "Open dedicated DevTools for Node".
+3.  Select the "Performance" tab.
+4.  Click "Load profile" and import your `.cpuprofile` file.
 
 ## License
 
-ISC
+[MIT](LICENSE)
