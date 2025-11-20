@@ -41,12 +41,14 @@ beforeEach(async (context) => {
     v8Profiler.startProfiling(testContext(context).fullname, true);
 });
 
-function saveProfile(profile, outputFilename) {
-    profile.export((error, result) => {
-        fs.writeFile(outputFilename, result).then(() => {
-            profile.delete()
-        });
+async function saveProfile(profile, outputFilename) {
+    const result = await new Promise((resolve, reject) => {
+        profile.export((error, result) =>
+            error ? reject(error) : resolve(result)
+        )
     });
+    await fs.writeFile(outputFilename, result);
+    profile.delete();
 }
 
 afterEach(async (context) => {
@@ -61,22 +63,22 @@ afterEach(async (context) => {
         ext: 'cpuprofile'
     });
     const profile = v8Profiler.stopProfiling(testContext(context).fullname);
-    saveProfile(profile, outputFilename);
+    await saveProfile(profile, outputFilename);
 });
 
 const allTestsProfileName = 'vitest-profiler';
-beforeAll(()=>{
+beforeAll(() => {
     v8Profiler.startProfiling(allTestsProfileName, true);
 })
 
-afterAll(() => {
+afterAll(async () => {
     const outputFilename = path.format({
         dir: profileResultsDir,
         name: 'all-tests',
         ext: 'cpuprofile'
     });
     const profile = v8Profiler.stopProfiling(allTestsProfileName);
-    saveProfile(profile, outputFilename)
+    await saveProfile(profile, outputFilename)
 
     console.log(`Profile written in ./${profileResultsDir}
 To examine the profile:
