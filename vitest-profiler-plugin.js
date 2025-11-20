@@ -1,4 +1,4 @@
-import {afterAll, afterEach, beforeEach} from 'vitest';
+import {afterAll, afterEach, beforeEach, beforeAll} from 'vitest';
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import v8Profiler from "v8-profiler-next";
@@ -41,6 +41,14 @@ beforeEach(async (context) => {
     v8Profiler.startProfiling(testContext(context).fullname, true);
 });
 
+function saveProfile(profile, outputFilename) {
+    profile.export((error, result) => {
+        fs.writeFile(outputFilename, result).then(() => {
+            profile.delete()
+        });
+    });
+}
+
 afterEach(async (context) => {
     const testPathContext = testContext(context);
     const testPath = testPathContext.testPath.map(sanitizeSegment);
@@ -53,14 +61,23 @@ afterEach(async (context) => {
         ext: 'cpuprofile'
     });
     const profile = v8Profiler.stopProfiling(testContext(context).fullname);
-    profile.export((error, result) => {
-        fs.writeFile(outputFilename, result).then(() => {
-            profile.delete()
-        });
-    });
+    saveProfile(profile, outputFilename);
 });
 
+const allTestsProfileName = 'vitest-profiler';
+beforeAll(()=>{
+    v8Profiler.startProfiling(allTestsProfileName, true);
+})
+
 afterAll(() => {
+    const outputFilename = path.format({
+        dir: profileResultsDir,
+        name: 'all-tests',
+        ext: 'cpuprofile'
+    });
+    const profile = v8Profiler.stopProfiling(allTestsProfileName);
+    saveProfile(profile, outputFilename)
+
     console.log(`Profile written in ./${profileResultsDir}
 To examine the profile:
     Navigate to chrome://inspect
